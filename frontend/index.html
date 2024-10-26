@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facebook Video Downloader</title>
+    <style></style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <h3><span>Facebook</span> Video Downloader</h3>
+        <input type="text" id="videoUrl" placeholder="Enter Video URL" />
+        <button id="downloadBtn">Download</button>
+
+        <div class="result" id="result"></div>
+      </div>
+    </div>
+    <script>
+      document.getElementById("downloadBtn").onclick = async () => {
+        const url = document.getElementById("videoUrl").value;
+        const response = await fetch("/api/download", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+          // Create the proxy URL
+          const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(
+            data.downloadUrl
+          )}`;
+          const downloadLink = document.createElement("a");
+          downloadLink.href = proxyUrl; // Use the proxy URL
+          downloadLink.setAttribute("download", data.videoName); // Suggest a download filename
+
+          // Trigger the download by programmatically clicking the link
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          document.getElementById("result").innerText = "Download started!";
+        } else {
+          document.getElementById("result").innerText = data.error;
+        }
+      };
+    </script>
+  </body>
+</html>
