@@ -28,22 +28,34 @@
       document.getElementById("downloadBtn").onclick = async () => {
   const url = document.getElementById("videoUrl").value;
   const response = await fetch("/api/download", {
-    method: "POST", // Ensure this is POST
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ url }),
   });
 
-  // Handle the response
+  console.log("Response status:", response.status); // Log the status code
+  const data = await response.json(); // Attempt to parse the JSON response
+
   if (response.ok) {
-    const data = await response.json();
-    // Proceed with the download
+    console.log("Data received:", data); // Log the data received
+    const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(data.downloadUrl)}`;
+    const downloadLink = document.createElement("a");
+    downloadLink.href = proxyUrl; // Use the proxy URL
+    downloadLink.setAttribute("download", data.videoName);
+
+    // Trigger the download
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    document.getElementById("result").innerText = "Download started!";
   } else {
-    const errorData = await response.json();
-    document.getElementById("result").innerText = errorData.error;
+    console.error("Error data:", data); // Log the error response
+    document.getElementById("result").innerText = data.error || "An error occurred.";
   }
 };
+
 
 
     </script>
