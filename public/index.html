@@ -28,21 +28,23 @@
       document.getElementById("downloadBtn").onclick = async () => {
   const url = document.getElementById("videoUrl").value;
   const response = await fetch("/api/download", {
-    method: "POST",
+    method: "POST", // Ensure this is POST
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ url }),
   });
 
+  // Handle the response
   if (response.ok) {
     const data = await response.json();
-    // ... handle successful response
+    // Proceed with the download
   } else {
     const errorData = await response.json();
     document.getElementById("result").innerText = errorData.error;
   }
 };
+
 
     </script>
   </body>
