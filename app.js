@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static("frontend")); // Serve static files from the frontend directory
+app.use(express.static("public")); // Serve static files from the frontend directory
 
 const getUrl = (url) => {
   return new Promise((resolve, reject) => {
