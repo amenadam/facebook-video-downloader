@@ -20,6 +20,47 @@ const getUrl = (url) => {
         return;
       }
 
+      const rgx = /<a href="(.+?)" target="_blank" class="btn btn-download"(.+?)>(.+?)<\/a>/g;
+      let arr = [...response.body.matchAll(rgx)];
+      if (arr.length > 0) {
+        console.log("Download link found:", arr[0][1]); // Log the download link
+        resolve({ videoName: "video.mp4", downloadUrl: arr[0][1] });
+      } else {
+        reject("No download link found.");
+      }
+    });
+  });
+};
+
+
+
+    request(options, function (error, response) {
+      if (error) {
+        console.error("Error fetching video:", error);
+        reject("Error fetching video: " + error);
+        return;
+      }
+
+      const rgx = /<a href="(.+?)" target="_blank" class="btn btn-download"(.+?)>(.+?)<\/a>/g;
+      let arr = [...response.body.matchAll(rgx)];
+      if (arr.length > 0) {
+        console.log("Download link found:", arr[0][1]); // Log the download link
+        resolve({ videoName: "video.mp4", downloadUrl: arr[0][1] });
+      } else {
+        reject("No download link found.");
+      }
+    });
+  });
+};
+
+
+    request(options, function (error, response) {
+      if (error) {
+        console.error("Error fetching video:", error);
+        reject("Error fetching video: " + error);
+        return;
+      }
+
       const rgx =
         /<a href="(.+?)" target="_blank" class="btn btn-download"(.+?)>(.+?)<\/a>/g;
       let arr = [...response.body.matchAll(rgx)];
