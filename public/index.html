@@ -26,34 +26,24 @@
     </div>
     <script>
       document.getElementById("downloadBtn").onclick = async () => {
-        const url = document.getElementById("videoUrl").value;
-        const response = await fetch("/api/download", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ url }),
-        });
-        const data = await response.json();
+  const url = document.getElementById("videoUrl").value;
+  const response = await fetch("/api/download", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url }),
+  });
 
-        if (response.ok) {
-          // Create the proxy URL
-          const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(
-            data.downloadUrl
-          )}`;
-          const downloadLink = document.createElement("a");
-          downloadLink.href = proxyUrl; // Use the proxy URL
-          downloadLink.setAttribute("download", data.videoName); // Suggest a download filename
+  if (response.ok) {
+    const data = await response.json();
+    // ... handle successful response
+  } else {
+    const errorData = await response.json();
+    document.getElementById("result").innerText = errorData.error;
+  }
+};
 
-          // Trigger the download by programmatically clicking the link
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
-          document.getElementById("result").innerText = "Download started!";
-        } else {
-          document.getElementById("result").innerText = data.error;
-        }
-      };
     </script>
   </body>
 </html>
