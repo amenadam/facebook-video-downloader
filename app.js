@@ -37,15 +37,16 @@ const getUrl = (url) => {
 
 app.get("/api/proxy-download", (req, res) => {
   const downloadUrl = req.query.url;
+  console.log("Proxy download URL:", downloadUrl); // Log the download URL
 
-  // Make the request to the download URL
   request(downloadUrl)
     .on("error", (err) => {
       console.error("Download error:", err);
       res.status(500).send("Error downloading file");
     })
-    .pipe(res); // Stream the response back to the client
+    .pipe(res);
 });
+
 
 app.post("/api/download", (req, res) => {
   const url = req.body.url;
