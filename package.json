@@ -13,8 +13,5 @@
     "dotenv": "^16.4.5",
     "express": "^4.17.1",
     "request": "^2.88.2"
-  },
-  {
-  "url": "https://facebook-video-downloader-7gip.vercel.app" 
-}
+  }
 }
